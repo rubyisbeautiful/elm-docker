@@ -6,6 +6,7 @@ LABEL maintainer="<rubyisbeautiful> bcptaylor@gmail.com"
 
 ARG ELM_VERSION=0.18.0
 ARG ELM_PORT=8000
+ARG ELM_TEST_VERSION=0.18.12
 
 ENV NPM_CONFIG_PREFIX=/home/node/.npm-global \
     PATH="$PATH:/home/node/.npm-global/bin" \
@@ -19,7 +20,7 @@ COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 
 WORKDIR /home/node/app
 
-RUN npm install --loglevel=warn -g elm@${ELM_VERSION} \
+RUN npm install --loglevel=warn -g elm@${ELM_VERSION} elm-test@${ELM_TEST_VERSION} \
  && if [ -f elm-package.json ]; then elm-package install -y; fi \
  && chown -R node:node /home/node \
  && chmod a+x /usr/local/bin/entrypoint.sh
