@@ -1,0 +1,35 @@
+version: v1.0
+name: elm-docker Pipeline
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu1804
+
+blocks:
+
+  - name: "Build"
+    task:
+      secrets:
+        - name: dockerhub-secrets
+      prologue:
+        commands:
+          - echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
+      jobs:
+        - name: Docker build
+          env_vars:
+            - name: ELM_TEST_VERSION
+              value: latest-0.19.1
+          matrix:
+            - env_var: ELM_VERSION
+              values: ["0.18.0", "latest-0.19.1"]
+            - env_var: NODE_VERSION
+              values: ["7", "15"]
+          commands:
+            - checkout
+            - |
+              docker build \
+                --build-arg NODE_VERSION=$NODE_VERSION \
+                --build-arg ELM_VERSION=$ELM_VERSION \
+                -t rubyisbeautiful/elm-docker:$NODE_VERSION-$ELM_VERSION \
+                .
+            - docker push rubyisbeautiful/elm-docker:$NODE_VERSION-$ELM_VERSION
