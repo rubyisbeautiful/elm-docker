@@ -1,12 +1,12 @@
-ARG NODE_VERSION=7
+ARG NODE_VERSION=18
 
 FROM node:${NODE_VERSION}
 
 LABEL maintainer="<rubyisbeautiful> bcptaylor@gmail.com"
 
-ARG ELM_VERSION=0.18.0
+ARG ELM_VERSION=0.19.1
 ARG ELM_PORT=8000
-ARG ELM_TEST_VERSION=0.18.12
+ARG ELM_TEST_VERSION=0.19.1-revision6
 
 ENV NPM_CONFIG_PREFIX=/home/node/.npm-global \
     PATH="$PATH:/home/node/.npm-global/bin" \
