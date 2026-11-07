@@ -2,6 +2,8 @@
 
 Simple
 
+Docker builds require Node.js 22.23.4 or newer in the 22.x release line to mitigate CVE-2026-111497; other major versions are rejected.
+
 See: https://elm-lang.org.org
 
 # How to use this image

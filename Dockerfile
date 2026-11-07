@@ -1,6 +1,9 @@
-ARG NODE_VERSION=18
+ARG NODE_VERSION=22.23.4
 
 FROM node:${NODE_VERSION}
+
+# Enforce Node.js 22.x >= 22.23.4 to mitigate CVE-2026-111497
+RUN node -e "const [major,minor,patch]=process.versions.node.split('.').map(Number); if(major!==22||(minor<23||(minor===23&&patch<4))) { console.error('Node version ' + process.versions.node + ' is unsupported; Node.js 22.23.4 or newer in the 22.x line is required for CVE-2026-111497'); process.exit(1); }"
 
 LABEL maintainer="<rubyisbeautiful> bcptaylor@gmail.com"
 
